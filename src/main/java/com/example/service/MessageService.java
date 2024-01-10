@@ -13,5 +13,13 @@ public class MessageService {
         return null;
     }
 
+    public Message getMessageById() {
+        return null;
+    }
+
+    public Message addMessage(Message message) {
+        return null;
+    }
+
 
 }

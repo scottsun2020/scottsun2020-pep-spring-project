@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,16 +44,25 @@ public class SocialMediaController {
   
         //requirement #1 register new user : add new user into Account (post api)
         //requirement #2 login
-        //requirement #3 create new message
-
-
-    //requrement #4 retrive all the messages
-    public @RequestBody ArrayList<Message> getAllMessages(){
-        return this.messageService.getAllMessages();
+    //requirement #3 create new message
+    @PostMapping(value = "/requestbody")
+    public Message addMessage(@RequestBody Message message){
+        return this.messageService.addMessage(message);
     }
 
 
-        //requirement #5 retrieve a message by its ID
+    //requrement #4 retrive all the messages
+    @GetMapping("/messages")
+    public ArrayList<Message> getAllMessages(){
+        return this.messageService.getAllMessages();
+    }
+    
+    //requirement #5 retrieve a message by its ID
+    @GetMapping("/messages/{message_id}")
+    public Message getMessageById(@PathVariable int messageId){
+        return this.messageService.getMessageById();
+    }
+    
         //requirement #6 delete a message by id
         //requirement #7 update message by ID
         //requirement #8 retrieve all message by a user
