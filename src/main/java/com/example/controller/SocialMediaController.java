@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
@@ -57,7 +58,7 @@ public class SocialMediaController {
     //requrement #4 retrive all the messages
     @GetMapping("/messages")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<Object> getAllMessages(){
+    public @ResponseBody ResponseEntity<Object> getAllMessages(){
         List<Message> messages = this.messageService.getAllMessages();
         //response back from service layer
         return new ResponseEntity<>(messages, HttpStatus.OK);
@@ -66,10 +67,10 @@ public class SocialMediaController {
     
     //requirement #5 retrieve a message by its ID
     @GetMapping("/messages/{message_id}")
-    public ResponseEntity<Message> getMessageById(@PathVariable int messageId){
+    public @ResponseBody ResponseEntity<Object> getMessageById(@PathVariable int message_id){
         //1. get information from context 
         //2. call service layer
-        Message messageGetById = this.messageService.getMessageById(messageId);
+        Message messageGetById = this.messageService.getMessageById(message_id);
         //3. response back from service layer
         if(messageGetById == null){
             return new ResponseEntity<>(HttpStatus.OK);
@@ -77,6 +78,8 @@ public class SocialMediaController {
             return new ResponseEntity<>(messageGetById, HttpStatus.OK);
         } 
     }
+
+
     
         //requirement #6 delete a message by id
         //requirement #7 update message by ID

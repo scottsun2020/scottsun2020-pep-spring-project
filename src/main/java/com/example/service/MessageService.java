@@ -25,7 +25,9 @@ public class MessageService {
     }
 
     public Message getMessageById(int id) {
+        //Optional<Message> optionalMessage = this.messageRepository.getMessageById(id);
         Optional<Message> optionalMessage = this.messageRepository.findById(id);
+
         if(optionalMessage.isPresent()){
             return optionalMessage.get();
         }else{
