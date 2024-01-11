@@ -1,10 +1,10 @@
 package com.example.service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.example.entity.Message;
@@ -20,12 +20,12 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
-    public ArrayList<Message> getAllMessages() {
-        return this.messageRepository.getAllMessages();
+    public List<Message> getAllMessages() {
+        return this.messageRepository.findAll();
     }
 
     public Message getMessageById(int id) {
-        Optional<Message> optionalMessage = this.messageRepository.getMessageById(id);
+        Optional<Message> optionalMessage = this.messageRepository.findById(id);
         if(optionalMessage.isPresent()){
             return optionalMessage.get();
         }else{
@@ -34,7 +34,8 @@ public class MessageService {
     }
 
     public Message addMessage(Message message) {
-        return null;
+        //
+        return this.messageRepository.save(message);
     }
 
 

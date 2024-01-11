@@ -1,6 +1,6 @@
 package com.example.controller;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -57,11 +57,10 @@ public class SocialMediaController {
     //requrement #4 retrive all the messages
     @GetMapping("/messages")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void getAllMessages(){
-        ArrayList<Message> messages = new ArrayList<Message>();
-
-        messages = this.messageService.getAllMessages();
+    public ResponseEntity<Object> getAllMessages(){
+        List<Message> messages = this.messageService.getAllMessages();
         //response back from service layer
+        return new ResponseEntity<>(messages, HttpStatus.OK);
 
     }
     
@@ -83,20 +82,6 @@ public class SocialMediaController {
         //requirement #7 update message by ID
         //requirement #8 retrieve all message by a user
 
-
-
-
-
-    private void getAllMessages(Context ctx) {
-        //- The response body should contain a JSON representation of a list containing all messages 
-        //retrieved from the database. It is expected for the list to simply be empty if there are no messages. 
-        //The response status should always be 200, which is the default.
-        //1.get information from context
-        //2. call service layer
-        messages = this.messageService.getAllMessages();
-        //3. resposne back from sercie layer
-        ctx.json(messages).status(200);
-    }
 
 
 
