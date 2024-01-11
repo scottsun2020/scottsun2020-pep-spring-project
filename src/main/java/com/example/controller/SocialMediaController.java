@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.example.entity.Account;
 import com.example.entity.Message;
@@ -37,13 +40,13 @@ public class SocialMediaController {
     //constructor injection
     @Autowired
     public SocialMediaController(MessageService messageService){
-        this.messageService = new MessageService();
+        this.messageService = messageService;
     }
-
 
   
         //requirement #1 register new user : add new user into Account (post api)
         //requirement #2 login
+
     //requirement #3 create new message
     @PostMapping(value = "/requestbody")
     public Message addMessage(@RequestBody Message message){
@@ -53,14 +56,27 @@ public class SocialMediaController {
 
     //requrement #4 retrive all the messages
     @GetMapping("/messages")
-    public ArrayList<Message> getAllMessages(){
-        return this.messageService.getAllMessages();
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void getAllMessages(){
+        ArrayList<Message> messages = new ArrayList<Message>();
+
+        messages = this.messageService.getAllMessages();
+        //response back from service layer
+
     }
     
     //requirement #5 retrieve a message by its ID
     @GetMapping("/messages/{message_id}")
-    public Message getMessageById(@PathVariable int messageId){
-        return this.messageService.getMessageById();
+    public ResponseEntity<Message> getMessageById(@PathVariable int messageId){
+        //1. get information from context 
+        //2. call service layer
+        Message messageGetById = this.messageService.getMessageById(messageId);
+        //3. response back from service layer
+        if(messageGetById == null){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(messageGetById, HttpStatus.OK);
+        } 
     }
     
         //requirement #6 delete a message by id
@@ -76,7 +92,6 @@ public class SocialMediaController {
         //retrieved from the database. It is expected for the list to simply be empty if there are no messages. 
         //The response status should always be 200, which is the default.
         //1.get information from context
-        ArrayList<Message> messages = new ArrayList<Message>();
         //2. call service layer
         messages = this.messageService.getAllMessages();
         //3. resposne back from sercie layer
