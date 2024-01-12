@@ -72,7 +72,16 @@ public class SocialMediaController {
         }
     }
     //requirement #2 login
-
+    @PostMapping("/login")
+    public ResponseEntity<Object> login(@RequestBody Account account){
+        Account accountLogined = this.accountService.getAccountByUsernameAndPassword(account);
+        if(accountLogined == null){
+            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+        }else{
+            return new ResponseEntity<Object>(accountLogined, HttpStatus.OK);
+        }
+        
+    }
 
     //requirement #3 create new message
     @PostMapping(value = "/messages")

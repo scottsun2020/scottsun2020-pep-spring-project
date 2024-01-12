@@ -29,7 +29,7 @@ public class AccountService {
         if(newAccount.getPassword().length() < 4){
             return null;
         }
-        
+
         return this.accountRepository.save(newAccount);
     }
 
@@ -41,5 +41,25 @@ public class AccountService {
         }else{
             return false;
         }
+    }
+
+    public Account getAccountByUsernameAndPassword(Account account) {
+        Optional<Account> accountByUsernameAndPassword = this.accountRepository.findAccountByUsernameAndPassword(account.getUsername(), account.getPassword());
+        if(accountByUsernameAndPassword.isPresent()){
+            return accountByUsernameAndPassword.get();
+        }else{
+            return null;
+        }
+        
+        //invalid username
+        // if(accountByUsername == null){
+        //     return null;
+        // }
+        // String accountPassword = accountByUsername.getPassword();
+        // //username and password match the database 
+        // if(!newAccount.getPassword().equals(accountPassword)){
+        //     return null;
+        // }
+        // return this.accountDAO.getAccountByUsernameAndPassword(newAccount.getUsername(), newAccount.getPassword());
     }
 }
