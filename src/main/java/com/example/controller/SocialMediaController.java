@@ -87,24 +87,32 @@ public class SocialMediaController {
     }
 
     //requirement #6 delete a message by id
-    @DeleteMapping(value = "/messages/{id}")
-    public ResponseEntity<Object> Delete(@PathVariable int id) {
+    @DeleteMapping("/messages/{message_id}")
+    public ResponseEntity<Object> deleteMessageById(@PathVariable int message_id) {
         
-        Message messageDeleteById = this.messageService.deleteMessageById(id);
+        boolean result = this.messageService.deleteMessageById(message_id);
         //response back from server
-        if(messageDeleteById == null){
-            return new ResponseEntity<>(HttpStatus.OK);
-        }else{
-            
-            return new ResponseEntity<>(messageDeleteById, HttpStatus.OK);
+        if(!result){
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }else{           
+            return ResponseEntity.status(HttpStatus.OK).body("1");
         }
         
     }
 
-    
+    //requirement #7 update message by ID
+    //requirement #8 retrieve all message by a user
+    @GetMapping("/accounts/{account_id}/messages")
+    public ResponseEntity<Object> getMessagesByAccountId(@PathVariable int account_id){
+            //1.get info from context
+            
+            //2. call service layer
+            List<Message> messages = this.messageService.getMessageByAccountId(account_id);
+            //3. get response from service layer
+            return new ResponseEntity<>(messages, HttpStatus.OK);
 
-        //requirement #7 update message by ID
-        //requirement #8 retrieve all message by a user
+
+    }
 
 
 

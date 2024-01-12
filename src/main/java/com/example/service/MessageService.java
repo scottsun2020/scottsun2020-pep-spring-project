@@ -56,21 +56,29 @@ public class MessageService {
         return this.messageRepository.save(newMessage);
     }
 
-    public Message deleteMessageById(int id) {
-        return null;
+        //requirement 6: delete message by Id
+    public boolean deleteMessageById(int messageId){
+        //check if message id not exist 
+        Optional<Message> optionalMessage = this.messageRepository.findById(messageId);
+        //delete the message through repository
+        if(optionalMessage.isPresent()){            
+            this.messageRepository.deleteById(messageId);
+            return true;
+            
+        }else{
+            return false;
+        }
+        
     }
 
-        //requirement 6: delete message by Id
-    public Message deleteMessageById(int messageId){
-        //if message id not exist 
-        
-        Message message = this.messageDAO.getMessageById(messageId);
-        if(this.messageDAO.deleteMessageById(messageId)){
-            return message;
+    public List<Message> getMessageByAccountId(int account_id) {
+        Optional<List<Message>> optionalMessages = this.messageRepository.findByAccountId(account_id);
+
+        if(optionalMessages.isPresent()){
+            return optionalMessages.get();
         }else{
             return null;
         }
-        
     }
 
 
