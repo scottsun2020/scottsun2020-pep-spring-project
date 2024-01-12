@@ -81,5 +81,31 @@ public class MessageService {
         }
     }
 
+    //requirement 7: update 
+    public Message updateMessageById(int messageId, String messageText) {
+
+        //the message length is less and equal than 255 characters 
+        if(messageText.length() >= 255){
+            return null;
+        }
+        //message string is empty
+        if(messageText.trim().isBlank()){
+            return null;
+        }   
+
+        //check if the message does not exist 
+        Optional<Message> optionalMessage = this.messageRepository.findById(messageId);
+        if(optionalMessage.isPresent()){
+            Message message = optionalMessage.get();
+            message.setMessage_text(messageText);
+            this.messageRepository.save(message);
+            return message;
+
+        } else{
+            return null;
+        }
+
+    }           
+
 
 }
