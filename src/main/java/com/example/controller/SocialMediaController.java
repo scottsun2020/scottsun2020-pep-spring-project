@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -85,9 +86,23 @@ public class SocialMediaController {
         } 
     }
 
+    //requirement #6 delete a message by id
+    @DeleteMapping(value = "/messages/{id}")
+    public ResponseEntity<Object> Delete(@PathVariable int id) {
+        
+        Message messageDeleteById = this.messageService.deleteMessageById(id);
+        //response back from server
+        if(messageDeleteById == null){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            
+            return new ResponseEntity<>(messageDeleteById, HttpStatus.OK);
+        }
+        
+    }
 
     
-        //requirement #6 delete a message by id
+
         //requirement #7 update message by ID
         //requirement #8 retrieve all message by a user
 
