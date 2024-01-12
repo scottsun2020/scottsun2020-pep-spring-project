@@ -40,34 +40,40 @@ public class SocialMediaController {
 
     //constructor injection
     @Autowired
-    public SocialMediaController(MessageService messageService){
+    public SocialMediaController(MessageService messageService, AccountService accountService){
         this.messageService = messageService;
+        this.accountService = accountService;
+
     }
 
   
-        //requirement #1 register new user : add new user into Account (post api)
-        //requirement #2 login
+    //requirement #1 register new user : add new user into Account (post api)
+    //requirement #2 login
 
     //requirement #3 create new message
-    @PostMapping(value = "/requestbody")
-    public Message addMessage(@RequestBody Message message){
-        return this.messageService.addMessage(message);
-    }
+    @PostMapping(value = "/messages")
+    public ResponseEntity<Object> addMessage(@RequestBody Message message){
+        Message messageAdded = this.messageService.addMessage(message);
+        //response back from service layer
+        if(messageAdded == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }else{
+            return new ResponseEntity<>(messageAdded, HttpStatus.OK);
+        }
 
+    }
 
     //requrement #4 retrive all the messages
     @GetMapping("/messages")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public @ResponseBody ResponseEntity<Object> getAllMessages(){
+    public ResponseEntity<Object> getAllMessages(){
         List<Message> messages = this.messageService.getAllMessages();
         //response back from service layer
         return new ResponseEntity<>(messages, HttpStatus.OK);
-
     }
     
     //requirement #5 retrieve a message by its ID
     @GetMapping("/messages/{message_id}")
-    public @ResponseBody ResponseEntity<Object> getMessageById(@PathVariable int message_id){
+    public ResponseEntity<Object> getMessageById(@PathVariable int message_id){
         //1. get information from context 
         //2. call service layer
         Message messageGetById = this.messageService.getMessageById(message_id);
