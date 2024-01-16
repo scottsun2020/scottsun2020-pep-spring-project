@@ -3,17 +3,12 @@ package com.example.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +17,6 @@ import com.example.entity.Account;
 import com.example.entity.Message;
 import com.example.service.AccountService;
 import com.example.service.MessageService;
-
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 
 
 /**
@@ -50,7 +39,6 @@ public class SocialMediaController {
 
     }
 
-  
     //requirement #1 register new user : add new user into Account (post api)
     @PostMapping("/register")
     public ResponseEntity<Object> registerAccount(@RequestBody Account account){
@@ -79,8 +67,7 @@ public class SocialMediaController {
             return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
         }else{
             return new ResponseEntity<Object>(accountLogined, HttpStatus.OK);
-        }
-        
+        }      
     }
 
     //requirement #3 create new message
@@ -93,7 +80,6 @@ public class SocialMediaController {
         }else{
             return new ResponseEntity<>(messageAdded, HttpStatus.OK);
         }
-
     }
 
     //requrement #4 retrive all the messages
@@ -129,7 +115,6 @@ public class SocialMediaController {
         }else{           
             return ResponseEntity.status(HttpStatus.OK).body("1");
         }
-        
     }
 
     //requirement #7 update message by ID
@@ -145,7 +130,6 @@ public class SocialMediaController {
         }else {
             return new ResponseEntity<>("1", HttpStatus.OK);
         }
-
     }
 
     //requirement #8 retrieve all message by a user
@@ -157,11 +141,4 @@ public class SocialMediaController {
             //3. get response from service layer
             return new ResponseEntity<>(messages, HttpStatus.OK);
     }
-
-
-
-
-
-    
-
 }

@@ -1,13 +1,11 @@
 package com.example.service;
 
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-
 import com.example.entity.Account;
 import com.example.repository.AccountRepository;
+
 @Service
 public class AccountService {
     @Autowired
@@ -17,11 +15,8 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
-    
-    
-
     public Account addAccount(Account newAccount) {
-        //int[] httpStatus = {200, 400, 409};
+        //blank username
         if(newAccount.getUsername().isBlank()){
             return null;
         }
@@ -50,16 +45,5 @@ public class AccountService {
         }else{
             return null;
         }
-        
-        //invalid username
-        // if(accountByUsername == null){
-        //     return null;
-        // }
-        // String accountPassword = accountByUsername.getPassword();
-        // //username and password match the database 
-        // if(!newAccount.getPassword().equals(accountPassword)){
-        //     return null;
-        // }
-        // return this.accountDAO.getAccountByUsernameAndPassword(newAccount.getUsername(), newAccount.getPassword());
     }
 }
